@@ -1,15 +1,39 @@
 import { useState } from "react";
 import Navbar from "../components/Navbar";
+import {
+  getQuestions,
+} from "../services/interviewStore";
 
-const sampleQuestions = [
-  "Explain JWT Authentication.",
-  "What is React Virtual DOM?",
-  "Describe your SkillForge architecture.",
-  "Difference between BFS and DFS?",
-  "Explain MongoDB indexing."
-];
+
 
 const InterviewPage = () => {
+  const sampleQuestions = getQuestions();
+  if (
+    !sampleQuestions ||
+    sampleQuestions.length === 0
+  ) {
+    return (
+      <>
+        <Navbar />
+
+        <div className="min-h-screen bg-slate-950 text-white p-8">
+
+          <div className="max-w-4xl mx-auto">
+
+            <h1 className="text-3xl font-bold">
+              No Questions Generated
+            </h1>
+
+            <p className="mt-4 text-slate-400">
+              Go back and generate an interview first.
+            </p>
+
+          </div>
+
+        </div>
+      </>
+    );
+  }
   const [currentQuestion, setCurrentQuestion] = useState(0);
 
   const nextQuestion = () => {

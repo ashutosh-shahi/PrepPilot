@@ -11,8 +11,16 @@ export const generateInterview = async (
 
     const {
       resumeText,
-      jobDescription,
-    } = req.body;
+      jobDescription
+    } = req.body || {};
+
+    if (!resumeText || !jobDescription) {
+      return res.status(400).json({
+        success: false,
+        message:
+          "resumeText and jobDescription are required"
+      });
+    }
 
     const response =
       await generateQuestions(
@@ -27,7 +35,7 @@ export const generateInterview = async (
 
   } catch (error) {
 
-    console.log(error);
+    console.error(error);
 
     res.status(500).json({
       success: false,

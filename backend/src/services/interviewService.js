@@ -1,16 +1,12 @@
-import genAI from "../config/gemini.js";
+import groq from "../config/groq.js";
 
 export const generateQuestions = async (
   resumeText,
   jobDescription
 ) => {
 
-  const model = genAI.getGenerativeModel({
-    model: "gemini-2.5-flash",
-  });
-
   const prompt = `
-You are an interviewer.
+You are a technical interviewer.
 
 Resume:
 ${resumeText}
@@ -18,12 +14,12 @@ ${resumeText}
 Job Description:
 ${jobDescription}
 
-Generate exactly 5 technical interview questions.
+Generate exactly 5 interview questions.
 
-Return only JSON.
+Return ONLY valid JSON.
 
 {
-  "questions":[
+  "questions": [
     "question1",
     "question2",
     "question3",
@@ -33,8 +29,18 @@ Return only JSON.
 }
 `;
 
-  const result =
-    await model.generateContent(prompt);
+  const completion =
+    await groq.chat.completions.create({
+      messages: [
+        {
+          role: "user",
+          content: prompt,
+        },
+      ],
+      model: "llama-3.3-70b-versatile",
+      temperature: 0.7,
+    });
 
-  return result.response.text();
+  return completion.choices[0]
+    .message.content;
 };
