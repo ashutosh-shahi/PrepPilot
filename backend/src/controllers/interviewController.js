@@ -1,32 +1,37 @@
-import {
-  generateQuestions,
-} from "../services/interviewService.js";
+import { generateQuestions } from "../services/interviewService.js";
+import { extractTextFromPDF } from "../utils/pdfParser.js";
 
-export const generateInterview = async (
-  req,
-  res
-) => {
-
+export const generateInterview = async (req, res) => {
   try {
 
-    const {
-      resumeText,
-      jobDescription
-    } = req.body || {};
+    const { jobDescription } = req.body || {};
 
-    if (!resumeText || !jobDescription) {
+    if (!req.file) {
       return res.status(400).json({
         success: false,
-        message:
-          "resumeText and jobDescription are required"
+        message: "Resume PDF is required",
       });
     }
 
-    const response =
-      await generateQuestions(
-        resumeText,
-        jobDescription
-      );
+    if (!jobDescription) {
+      return res.status(400).json({
+        success: false,
+        message: "Job description is required",
+      });
+    }
+
+    const resumeText = await extractTextFromPDF(
+      req.file.buffer
+    );
+
+    console.log("========== RESUME ==========");
+    console.log(resumeText);
+    console.log("============================");
+
+    const response = await generateQuestions(
+      resumeText,
+      jobDescription
+    );
 
     res.status(200).json({
       success: true,

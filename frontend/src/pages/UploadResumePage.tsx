@@ -2,13 +2,14 @@ import Navbar from "../components/Navbar";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+
+
+import {
+  createSession,
+} from "../services/interviewStore";
 import {
   generateInterview,
 } from "../services/interviewService";
-
-import {
-  setQuestions,
-} from "../services/interviewStore";
 const UploadResumePage = () => {
   const navigate = useNavigate();
 
@@ -17,38 +18,28 @@ const UploadResumePage = () => {
 
   const [loading, setLoading]
   = useState(false);
+  const [resumeFile, setResumeFile]
+  = useState<File | null>(null);
   const handleGenerate = async () => {
 
   try {
 
     setLoading(true);
 
-    const resumeText = `
-Ashutosh Shahi
+    if (!resumeFile) {
+        alert("Please upload your resume.");
+        return;
+      }
 
-Electrical Engineering
-
-Skills:
-Java
-React
-Node.js
-MongoDB
-
-Projects:
-SkillForge
-PrepPilot
-`;
-
-    const response =
+      const response =
         await generateInterview(
-          resumeText,
+          resumeFile,
           jobDescription
         );
-
       const parsed =
         JSON.parse(response.data);
 
-      setQuestions(
+      createSession(
         parsed.questions
       );
 
@@ -79,17 +70,42 @@ PrepPilot
             Upload your resume and paste the target job description.
           </p>
 
-          <div className="border-2 border-dashed border-slate-700 rounded-xl p-16 text-center mb-8">
+          
 
-                <p className="text-xl mb-4">
-                    Upload Resume
-                </p>
+                <div className="border-2 border-dashed border-slate-700 rounded-xl p-12 text-center mb-8">
 
-                <input
+                  <label
+                    htmlFor="resume-upload"
+                    className="cursor-pointer inline-block bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-lg transition"
+                  >
+                    📄 Choose Resume (PDF)
+                  </label>
+
+                  <input
+                    id="resume-upload"
                     type="file"
                     accept=".pdf"
-                    className="text-slate-300"
-                />
+                    className="hidden"
+                    onChange={(e) => {
+                      if (e.target.files?.length) {
+                        setResumeFile(e.target.files[0]);
+                      }
+                    }}
+                  />
+
+                  {resumeFile && (
+                    <div className="mt-5">
+                      <p className="text-green-400 font-medium">
+                        ✓ {resumeFile.name}
+                      </p>
+                      <p className="text-slate-500 text-sm mt-1">
+                        Resume uploaded successfully
+                      </p>
+                    </div>
+                  )}
+
+                </div>
+                
 
             </div>
             <select
@@ -123,7 +139,7 @@ PrepPilot
 
         </div>
 
-      </div>
+      
     </>
   );
 };

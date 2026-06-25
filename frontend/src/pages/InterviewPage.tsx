@@ -1,13 +1,19 @@
 import { useState } from "react";
 import Navbar from "../components/Navbar";
+
 import {
-  getQuestions,
+  getSession,
+  updateAnswer,
 } from "../services/interviewStore";
 
 
 
 const InterviewPage = () => {
-  const sampleQuestions = getQuestions();
+  const session =
+    getSession();
+
+  const sampleQuestions =
+    session.questions;
   if (
     !sampleQuestions ||
     sampleQuestions.length === 0
@@ -74,7 +80,21 @@ const InterviewPage = () => {
           </div>
 
           <textarea
+            value={
+              session.answers[
+                currentQuestion
+              ]
+            }
+
+            onChange={(e) =>
+              updateAnswer(
+                currentQuestion,
+                e.target.value
+              )
+            }
+
             placeholder="Type answer..."
+
             className="w-full h-64 bg-slate-900 border border-slate-800 rounded-xl p-4"
           />
 
