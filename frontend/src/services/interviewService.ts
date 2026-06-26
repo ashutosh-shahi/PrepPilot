@@ -21,3 +21,18 @@ export const generateInterview = async (
 
   return response.data;
 };
+export const evaluateAnswer = async (
+  question: string,
+  answer: string
+) => {
+
+  const response = await api.post(
+    "/interview/evaluate",
+    {
+      question,
+      answer,
+    }
+  );
+
+  return response.data;
+};

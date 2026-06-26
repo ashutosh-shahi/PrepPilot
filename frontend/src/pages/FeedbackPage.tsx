@@ -1,109 +1,88 @@
 import Navbar from "../components/Navbar";
+import { getSession } from "../services/interviewStore";
 
 const FeedbackPage = () => {
+
+  const session = getSession();
+
   return (
+
     <>
       <Navbar />
 
       <div className="min-h-screen bg-slate-950 text-white p-8">
 
-        <div className="max-w-6xl mx-auto">
+        <div className="max-w-5xl mx-auto">
 
-          <h1 className="text-4xl font-bold mb-8">
-            Interview Feedback
+          <h1 className="text-5xl font-bold mb-8">
+            Interview Complete
           </h1>
 
-          <div className="grid md:grid-cols-3 gap-6 mb-10">
+          <div className="bg-slate-900 rounded-xl p-8 mb-8">
 
-            <div className="bg-slate-900 p-6 rounded-xl border border-slate-800">
-              <h3 className="text-slate-400 mb-2">
-                Technical Score
-              </h3>
+            <h2 className="text-4xl text-green-400">
 
-              <p className="text-5xl font-bold">
-                84%
-              </p>
-            </div>
+              Overall Score
 
-            <div className="bg-slate-900 p-6 rounded-xl border border-slate-800">
-              <h3 className="text-slate-400 mb-2">
-                Communication
-              </h3>
-
-              <p className="text-5xl font-bold">
-                78%
-              </p>
-            </div>
-
-            <div className="bg-slate-900 p-6 rounded-xl border border-slate-800">
-              <h3 className="text-slate-400 mb-2">
-                Confidence
-              </h3>
-
-              <p className="text-5xl font-bold">
-                91%
-              </p>
-            </div>
-
-          </div>
-
-          <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 mb-6">
-
-            <h2 className="text-xl font-semibold mb-4">
-              AI Feedback
             </h2>
 
-            <ul className="space-y-3 text-slate-300">
+            <p className="text-6xl font-bold mt-4">
 
-              <li>
-                • Strong understanding of React fundamentals.
-              </li>
+              {session.overallScore}/10
 
-              <li>
-                • Improve explanation of authentication flow.
-              </li>
-
-              <li>
-                • Dynamic Programming concepts need revision.
-              </li>
-
-              <li>
-                • Communication was concise and structured.
-              </li>
-
-            </ul>
+            </p>
 
           </div>
 
-          <div className="bg-slate-900 border border-slate-800 rounded-xl p-6">
+          {
 
-            <h2 className="text-xl font-semibold mb-4">
-              Recommended Topics
-            </h2>
+            session.questions.map(
+              (question, index) => (
 
-            <div className="flex flex-wrap gap-3">
+                <div
+                  key={index}
+                  className="bg-slate-900 rounded-xl p-6 mb-6"
+                >
 
-              <span className="bg-red-500/10 border border-red-500/20 px-4 py-2 rounded-lg">
-                Dynamic Programming
-              </span>
+                  <h3 className="text-xl font-bold">
 
-              <span className="bg-yellow-500/10 border border-yellow-500/20 px-4 py-2 rounded-lg">
-                System Design
-              </span>
+                    Question {index + 1}
 
-              <span className="bg-blue-500/10 border border-blue-500/20 px-4 py-2 rounded-lg">
-                Operating Systems
-              </span>
+                  </h3>
 
-            </div>
+                  <p className="mt-3">
 
-          </div>
+                    {question}
+
+                  </p>
+
+                  <p className="mt-4 text-green-400">
+
+                    Score:
+
+                    {" "}
+
+                    {
+                      session.feedback[index]?.score
+                    }/10
+
+                  </p>
+
+                </div>
+
+              )
+            )
+
+          }
 
         </div>
 
       </div>
+
     </>
+
   );
+
 };
 
 export default FeedbackPage;

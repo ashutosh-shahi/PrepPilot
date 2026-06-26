@@ -1,4 +1,7 @@
-import { generateQuestions } from "../services/interviewService.js";
+import {
+  generateQuestions,
+  evaluateInterviewAnswer,
+} from "../services/interviewService.js";
 import { extractTextFromPDF } from "../utils/pdfParser.js";
 
 export const generateInterview = async (req, res) => {
@@ -47,4 +50,45 @@ export const generateInterview = async (req, res) => {
       message: "Generation failed",
     });
   }
+};
+export const evaluateAnswer = async (
+  req,
+  res
+) => {
+
+  try {
+
+    const {
+      question,
+      answer,
+    } = req.body;
+    if (!question || !answer.trim()) {
+      return res.status(400).json({
+        success: false,
+        message: "Question and answer are required.",
+      });
+    }
+
+    const feedback =
+      await evaluateInterviewAnswer(
+        question,
+        answer
+      );
+
+    res.json({
+      success: true,
+      data: feedback,
+    });
+
+  } catch (error) {
+
+    console.log(error);
+
+    res.status(500).json({
+      success: false,
+      message: "Evaluation failed",
+    });
+
+  }
+
 };

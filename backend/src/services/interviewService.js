@@ -62,3 +62,58 @@ Return ONLY valid JSON.
   return completion.choices[0]
     .message.content;
 };
+export const evaluateInterviewAnswer = async (
+  question,
+  answer
+) => {
+
+  const prompt = `
+You are a Senior Software Engineer interviewing a candidate.
+
+Interview Question:
+${question}
+
+Candidate Answer:
+${answer}
+
+Evaluate the answer objectively.
+
+Return ONLY valid JSON in this exact format:
+
+{
+  "score": 8,
+  "strengths": [
+    "...",
+    "..."
+  ],
+  "weaknesses": [
+    "...",
+    "..."
+  ],
+  "idealAnswer": "..."
+}
+
+Rules:
+- Score should be between 1 and 10.
+- Mention at least 2 strengths.
+- Mention at least 2 weaknesses.
+- The ideal answer should be concise (3-5 sentences).
+- Return ONLY JSON.
+`;
+
+  const completion =
+    await groq.chat.completions.create({
+      messages: [
+        {
+          role: "user",
+          content: prompt,
+        },
+      ],
+      model: "llama-3.3-70b-versatile",
+      temperature: 0.3,
+    });
+
+  return JSON.parse(
+    completion.choices[0].message.content
+  );
+};
