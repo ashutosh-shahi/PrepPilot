@@ -15,6 +15,8 @@ const UploadResumePage = () => {
 
   const [jobDescription, setJobDescription]
   = useState("");
+  const [company, setCompany] =
+    useState("DE Shaw");
 
   const [loading, setLoading]
   = useState(false);
@@ -43,9 +45,15 @@ const UploadResumePage = () => {
         parsed.questions
       );
 
+      localStorage.setItem(
+        "company",
+        company
+      );
+
       navigate("/interview");
 
-    } catch (error) {
+  } 
+    catch (error) {
 
       console.log(error);
 
@@ -109,6 +117,14 @@ const UploadResumePage = () => {
 
             </div>
             <select
+            value={company}
+
+            onChange={(e)=>
+
+            setCompany(e.target.value)
+
+            }
+
             className="w-full mb-6 bg-slate-900 border border-slate-700 rounded-xl p-4"
             >
             <option>DE Shaw</option>

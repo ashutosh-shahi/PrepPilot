@@ -6,6 +6,9 @@ import {
   getSession,
   updateAnswer,
   updateFeedback,
+  setOverallScore,
+  updateDashboard,
+  saveInterviewHistory,
 } from "../services/interviewStore";
 
 
@@ -76,6 +79,15 @@ const InterviewPage = () => {
           average.toFixed(1)
         );
 
+        updateDashboard();
+        saveInterviewHistory(
+
+          localStorage.getItem("company") ||
+
+          "Interview"
+
+          );
+        
         navigate("/feedback");
 
         return;
@@ -149,21 +161,22 @@ const startRecording = () => {
 
     recognition.onresult = (event: any) => {
 
-      let transcript = "";
+      let finalTranscript = "";
 
       for (
         let i = event.resultIndex;
         i < event.results.length;
         i++
       ) {
-
-        transcript +=
-          event.results[i][0].transcript;
-
+        if (event.results[i].isFinal) {
+          finalTranscript +=
+            event.results[i][0].transcript;
+        }
       }
 
-      setAnswer(prev => prev + " " + transcript);
-
+      if (finalTranscript) {
+        setAnswer(prev => prev + " " + finalTranscript);
+      }
     };
 
     recognition.onend = () => {

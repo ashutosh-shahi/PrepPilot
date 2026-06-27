@@ -2,9 +2,18 @@ import Navbar from "../components/Navbar";
 import StatCard from "../components/StatCard";
 import { Link } from "react-router-dom";
 import InterviewHistory from "../components/InterviewHistory";
-import ProgressBar from "../components/ProgressBar";
+
 
 const DashboardPage = () => {
+  const dashboard = JSON.parse(
+  localStorage.getItem("dashboard") ||
+  `{
+    "interviewsTaken":0,
+    "averageScore":0,
+    "questionsAnswered":0,
+    "latestScore":0
+  }`
+);
   return (
     <>
       <Navbar />
@@ -24,68 +33,26 @@ const DashboardPage = () => {
           </div>
 
           <div className="grid md:grid-cols-4 gap-6 mb-10">
-            <StatCard title="Interviews Taken" value="12" />
-            <StatCard title="Average Score" value="84%" />
-            <StatCard title="Questions Solved" value="248" />
-            <StatCard title="Weak Topics" value="4" />
+            <StatCard
+              title="Interviews Taken"
+              value={dashboard.interviewsTaken}
+            />
+            <StatCard
+              title="Average Score"
+              value={`${dashboard.averageScore}/10`}
+            />
+            <StatCard
+              title="Questions Solved"
+              value={dashboard.questionsAnswered}
+            />
+            <StatCard
+              title="Latest Score"
+              value={`${dashboard.latestScore}/10`}
+            />
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-6">
-
-            <div className="bg-slate-900 border border-slate-800 rounded-xl p-6">
-              <h2 className="text-xl font-semibold mb-4">
-                Recent Interviews
-              </h2>
-
-              <div className="space-y-4">
-
-                <div className="bg-slate-800 p-4 rounded-lg">
-                  <p>DE Shaw SDE Internship</p>
-                  <p className="text-sm text-slate-400">
-                    Score: 82%
-                  </p>
-                </div>
-
-                <div className="bg-slate-800 p-4 rounded-lg">
-                  <p>Goldman Sachs Analyst</p>
-                  <p className="text-sm text-slate-400">
-                    Score: 76%
-                  </p>
-                </div>
-
-                <div className="bg-slate-800 p-4 rounded-lg">
-                  <p>Meesho Backend Intern</p>
-                  <p className="text-sm text-slate-400">
-                    Score: 89%
-                  </p>
-                </div>
-
-              </div>
-            </div>
-
-            <div className="bg-slate-900 border border-slate-800 rounded-xl p-6">
-
-              <h2 className="text-xl font-semibold mb-4">
-                Weak Areas
-              </h2>
-
-              <div className="space-y-3">
-
-                <div className="bg-red-500/10 border border-red-500/20 p-3 rounded-lg">
-                  Dynamic Programming
-                </div>
-
-                <div className="bg-yellow-500/10 border border-yellow-500/20 p-3 rounded-lg">
-                  System Design
-                </div>
-
-                <div className="bg-blue-500/10 border border-blue-500/20 p-3 rounded-lg">
-                  Operating Systems
-                </div>
-
-              </div>
-            </div>
-
+          <div className="mt-10">
+            <InterviewHistory />
           </div>
 
           <div className="mt-10 flex gap-4">
@@ -107,44 +74,7 @@ const DashboardPage = () => {
           </div>
 
         </div>
-        <div className="grid lg:grid-cols-2 gap-6">
-
-  <InterviewHistory />
-
-        <div className="bg-slate-900 border border-slate-800 rounded-xl p-6">
-
-            <h2 className="text-xl font-semibold mb-6">
-            Topic Readiness
-            </h2>
-
-            <div className="space-y-5">
-
-            <ProgressBar
-                topic="Arrays"
-                value={90}
-            />
-
-            <ProgressBar
-                topic="Trees"
-                value={75}
-            />
-
-            <ProgressBar
-                topic="Graphs"
-                value={68}
-            />
-
-            <ProgressBar
-                topic="Dynamic Programming"
-                value={40}
-            />
-
-            </div>
-
-        </div>
-
-        </div>
-
+        
       </div>
       
     </>
