@@ -151,19 +151,23 @@ VITE_API_URL=http://localhost:5000/api
 
 ### Landing Page
 
-![Landing Page](screenshots/landing page.png)
+![Landing Page](screenshots/landing%20page.png)
+
+### Resume Upload
+
+![Resume Upload](screenshots/Upload%20resume%20and%20JD.png)
 
 ### Interview
 
-![Resume Upload](screenshots/upload resume and JD.png)
+![Interview](screenshots/interview%20page.png)
 
 ### Feedback
 
-![AI Feedback](screenshots/feedback page.png)
+![Feedback](screenshots/feedback%20page.png)
 
 ### Dashboard
 
-![Dashboard](screenshots/dashboard.png)
+![Dashboard](screenshots/Dashboard.png)
 
 ---
 
