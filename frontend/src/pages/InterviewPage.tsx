@@ -6,7 +6,7 @@ import {
   getSession,
   updateAnswer,
   updateFeedback,
-  setOverallScore,
+  
   updateDashboard,
   saveInterviewHistory,
 } from "../services/interviewStore";
@@ -223,15 +223,45 @@ const startRecording = () => {
         <div className="max-w-4xl mx-auto">
 
           <div className="mb-8">
-            <h1 className="text-4xl font-bold">
-              Mock Interview
-            </h1>
-          </div>
+
+  <h1 className="text-4xl font-bold mb-6">
+    Mock Interview
+  </h1>
+
+  <div className="flex justify-between text-sm text-slate-400 mb-2">
+
+    <span>
+      Question {currentQuestion + 1} of {sampleQuestions.length}
+    </span>
+
+    <span>
+      {Math.round(
+        ((currentQuestion + 1) /
+          sampleQuestions.length) *
+          100
+      )}%
+    </span>
+
+  </div>
+
+  <div className="w-full h-2 bg-slate-800 rounded-full">
+
+    <div
+      className="h-2 bg-blue-500 rounded-full transition-all duration-500"
+      style={{
+        width: `${((currentQuestion + 1) /
+          sampleQuestions.length) * 100}%`,
+      }}
+    />
+
+  </div>
+
+</div>
 
           <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 mb-6">
 
-            <p className="text-blue-400 mb-3">
-              Question {currentQuestion + 1} of {sampleQuestions.length}
+            <p className="text-blue-400 text-xs tracking-[0.25em] uppercase mb-3">
+              Question
             </p>
 
             <h2 className="text-2xl font-semibold">
@@ -276,7 +306,7 @@ const startRecording = () => {
             onChange={(e) => setAnswer(e.target.value)}
             disabled={session.feedback[currentQuestion] !== null}
             placeholder="Type answer..."
-            className="w-full h-64 bg-slate-900 border border-slate-800 rounded-xl p-4"
+            className="w-full h-64 resize-none bg-slate-900 border border-slate-700 rounded-xl p-5 outline-none transition-all duration-300 focus:border-blue-500"
           />
           {
             session.feedback[currentQuestion] && (
@@ -364,7 +394,7 @@ const startRecording = () => {
 
             <button
               onClick={prevQuestion}
-              className="bg-slate-800 px-6 py-3 rounded-lg"
+              className="bg-slate-800 px-6 py-3 rounded-xl transition-all duration-300 hover:-translate-y-1 hover:bg-slate-700"
             >
               Previous
             </button>
@@ -387,7 +417,7 @@ const startRecording = () => {
                 disabled={
                   session.feedback[currentQuestion] === null
                 }
-                className="bg-blue-600 px-6 py-3 rounded-lg disabled:opacity-50"
+                className="bg-blue-600 px-6 py-3 rounded-xl transition-all duration-300 hover:-translate-y-1 hover:bg-blue-500"
               >
                 Next
               </button>

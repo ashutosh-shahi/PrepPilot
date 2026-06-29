@@ -71,7 +71,7 @@ const UploadResumePage = () => {
         <div className="max-w-4xl mx-auto">
 
           <h1 className="text-4xl font-bold mb-3">
-            Upload Resume
+            Create Interview
           </h1>
 
           <p className="text-slate-400 mb-8">
@@ -115,7 +115,7 @@ const UploadResumePage = () => {
                 </div>
                 
 
-            </div>
+            
             <select
             value={company}
 
@@ -140,14 +140,49 @@ const UploadResumePage = () => {
               setJobDescription(e.target.value)
             }
             placeholder="Paste Job Description Here..."
-            className="w-full h-64 bg-slate-900 border border-slate-700 rounded-xl p-4 outline-none"
+            className="w-full h-64 resize-none rounded-xl border border-slate-700 bg-slate-900 p-4 outline-none transition-all duration-300 focus:border-blue-500"
           />
 
           <button
             onClick={handleGenerate}
-            disabled={loading}
-            className="mt-6 bg-blue-600 px-6 py-3 rounded-lg"
-          >
+            disabled={
+                loading ||
+                !resumeFile ||
+                jobDescription.trim() === ""
+            }
+            className={`
+
+            mt-6
+
+            px-6
+
+            py-3
+
+            rounded-xl
+
+            font-medium
+
+            transition-all
+
+            duration-300
+
+            ${
+            loading ||
+            !resumeFile ||
+            jobDescription.trim()===""
+
+            ?
+
+            "bg-slate-700 cursor-not-allowed"
+
+            :
+
+            "bg-blue-600 hover:bg-blue-500 hover:-translate-y-1"
+
+            }
+
+            `}
+            >
             {loading
               ? "Generating..."
               : "Generate Interview"}
@@ -155,7 +190,9 @@ const UploadResumePage = () => {
 
         </div>
 
-      
+        </div>
+
+    
     </>
   );
 };
