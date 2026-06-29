@@ -151,19 +151,19 @@ VITE_API_URL=http://localhost:5000/api
 
 ### Landing Page
 
-(Add screenshot)
+![Landing Page](screenshots/landing page.png)
 
 ### Interview
 
-(Add screenshot)
+![Resume Upload](screenshots/upload resume and JD.png)
 
 ### Feedback
 
-(Add screenshot)
+![AI Feedback](screenshots/feedback page.png)
 
 ### Dashboard
 
-(Add screenshot)
+![Dashboard](screenshots/dashboard.png)
 
 ---
 
@@ -174,4 +174,4 @@ VITE_API_URL=http://localhost:5000/api
 Electrical Engineering, MANIT Bhopal
 
 GitHub:
-https://github.com/YOUR_USERNAME
+https://github.com/ashutosh-shahi
