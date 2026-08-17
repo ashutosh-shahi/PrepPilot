@@ -45,7 +45,7 @@ Backend: https://preppilot-backend-uvpn.onrender.com
 - Express.js
 - Multer
 - PDF.js
-- Groq API (Llama 3.3 70B)
+- Groq API (GPT-OSS 120B)
 
 ### Deployment
 
