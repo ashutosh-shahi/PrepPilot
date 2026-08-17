@@ -48,16 +48,19 @@ Do NOT generate generic JavaScript or REST API questions unless they are actuall
 Return ONLY valid JSON.
 `;
   const completion =
-    await groq.chat.completions.create({
-      messages: [
-        {
-          role: "user",
-          content: prompt,
-        },
-      ],
-      model: "llama-3.3-70b-versatile",
-      temperature: 0.7,
-    });
+  await groq.chat.completions.create({
+    messages: [
+      {
+        role: "user",
+        content: prompt,
+      },
+    ],
+    model: "openai/gpt-oss-120b",
+    temperature: 0.7,
+    response_format: {
+      type: "json_object",
+    },
+  });
 
   return completion.choices[0]
     .message.content;
@@ -109,8 +112,11 @@ Rules:
           content: prompt,
         },
       ],
-      model: "llama-3.3-70b-versatile",
+      model: "openai/gpt-oss-120b",
       temperature: 0.3,
+      response_format: {
+        type: "json_object",
+      },
     });
 
   return JSON.parse(
