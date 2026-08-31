@@ -1,3 +1,4 @@
+import Interview from "../models/Interview.js";
 import {
   generateQuestions,
   evaluateInterviewAnswer,
@@ -91,4 +92,80 @@ export const evaluateAnswer = async (
 
   }
 
+};
+export const saveInterview = async (req, res) => {
+  try {
+    const {
+      userId,
+      company,
+      questions,
+      answers,
+      feedback,
+      overallScore,
+    } = req.body;
+
+    if (
+      !userId ||
+      !company ||
+      !questions ||
+      !answers ||
+      !feedback ||
+      overallScore === undefined
+    ) {
+      return res.status(400).json({
+        success: false,
+        message: "Incomplete interview data",
+      });
+    }
+
+    const interview = await Interview.create({
+      userId,
+      company,
+      questions,
+      answers,
+      feedback,
+      overallScore,
+    });
+
+    res.status(201).json({
+      success: true,
+      data: interview,
+    });
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      success: false,
+      message: "Failed to save interview",
+    });
+  }
+};
+export const getInterviewHistory = async (req, res) => {
+  try {
+    const { userId } = req.params;
+
+    if (!userId) {
+      return res.status(400).json({
+        success: false,
+        message: "userId is required",
+      });
+    }
+
+    const interviews = await Interview
+      .find({ userId })
+      .sort({ createdAt: -1 });
+
+    res.status(200).json({
+      success: true,
+      data: interviews,
+    });
+
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch interview history",
+    });
+  }
 };

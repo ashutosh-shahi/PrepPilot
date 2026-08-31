@@ -1,11 +1,17 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import connectDB from "./config/db.js";
 
 import interviewRoutes
 from "./routes/interviewRoutes.js";
 
 dotenv.config();
+
+connectDB();
+
+
+
 
 const app = express();
 

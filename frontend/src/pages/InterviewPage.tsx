@@ -1,12 +1,15 @@
 import { useState, useRef } from "react";
 import Navbar from "../components/Navbar";
-import { evaluateAnswer } from "../services/interviewService";
+import {
+  evaluateAnswer,
+  saveInterview,
+} from "../services/interviewService";
 import { useNavigate } from "react-router-dom";
 import {
   getSession,
   updateAnswer,
   updateFeedback,
-  
+  getUserId,
   updateDashboard,
   saveInterviewHistory,
 } from "../services/interviewStore";
@@ -57,7 +60,7 @@ const InterviewPage = () => {
   
   
 
-  const nextQuestion = () => {
+  const nextQuestion = async () => {
 
     updateAnswer(currentQuestion, answer);
           if (
@@ -88,7 +91,30 @@ const InterviewPage = () => {
 
           );
         
-        navigate("/feedback");
+        navigate("/feedback");const overallScore = Number(
+          average.toFixed(1)
+        );
+
+        session.overallScore = overallScore;
+
+        updateDashboard();
+
+        saveInterviewHistory(
+          localStorage.getItem("company") ||
+          "Interview"
+        );
+
+        await saveInterview(
+          getUserId(),
+          localStorage.getItem("company") ||
+            "Interview",
+          session.questions,
+          session.answers,
+          session.feedback,
+          overallScore
+        );
+
+navigate("/feedback");
 
         return;
       }
